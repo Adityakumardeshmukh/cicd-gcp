@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"composer","Source":"registry.terraform.io/terraform-google-modules/composer/google","Version":"0.1.1","Dir":".terraform/modules/composer"},{"Key":"composer.composer-environment","Source":"./modules/create_environment","Dir":".terraform/modules/composer/modules/create_environment"}]}

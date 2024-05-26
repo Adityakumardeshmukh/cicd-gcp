@@ -1,34 +1,15 @@
 variable "project_id" {
-  type = string
-}
-
-variable "iam_bindings" {
-  type = map(object({
-    role   = string
-    member = string
-  }))
+  description = "The GCP project ID"
+  type        = string
 }
 
 variable "region" {
-  type = string
+  description = "The GCP region"
+  type        = string
+  default     = "us-central1"
 }
 
-variable "subnet_1_cidr" {
-  type = string
-}
-
-variable "subnet_2_cidr" {
-  type = string
-}
-
-variable "composer_node_count" {
-  type = number
-}
-
-variable "composer_image_version" {
-  type = string
-}
-
-variable "composer_members" {
-  type = list(string)
+variable "service_account_email" {
+  description = "The service account email"
+  type        = string
 }

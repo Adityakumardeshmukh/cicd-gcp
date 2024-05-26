@@ -1,14 +1,13 @@
 {
-    "fi_id": "00900",
-    "project_suffix": "develop",
-    "env": "non-prod",
-    "dbk_env": "dev",
-    "dry_run": "false",
-    "vendors": {
-      "enable_digital_banking": true
-    },
-    "custom_iam_bindings": {},
-    "bq_location": "US",
-    "delete_protection_flg": false
-  }
-  
+  "fi_id": "00900",
+  "project_suffix": "develop",
+  "env": "non-prod",
+  "dbk_env": "dev",
+  "dry_run": "false",
+  "vendors": {
+    "enable_digital_banking": true
+  },
+  "custom_iam_bindings": {},
+  "bq_location": "US",
+  "delete_protection_flg": false
+}

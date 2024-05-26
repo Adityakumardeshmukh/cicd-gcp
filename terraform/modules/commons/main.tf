@@ -1,46 +1,39 @@
-// Apply necessary IAM bindings
-resource "google_project_iam_member" "bindings" {
-  for_each = var.iam_bindings
-  project  = var.project_id
-  role     = each.value.role
-  member   = each.value.member
+provider "google" {
+  project = var.project_id
+  region  = var.region
 }
 
-// Create VPC with two subnets
+resource "google_project_iam_binding" "common_bindings" {
+  project = var.project_id
+  role    = "roles/editor"
+  members = [
+    "serviceAccount:${var.service_account_email}"
+  ]
+}
+
 resource "google_compute_network" "vpc_network" {
-  name                    = "${var.project_id}-vpc"
-  auto_create_subnetworks = false
+  name = "vpc-network"
 }
 
 resource "google_compute_subnetwork" "subnet_1" {
-  name          = "${var.project_id}-subnet-dags"
-  ip_cidr_range = var.subnet_1_cidr
+  name          = "subnet-1"
+  ip_cidr_range = "10.0.0.0/24"
+  network       = google_compute_network.vpc_network.id
   region        = var.region
-  network       = google_compute_network.vpc_network.name
 }
 
 resource "google_compute_subnetwork" "subnet_2" {
-  name          = "${var.project_id}-subnet-composer"
-  ip_cidr_range = var.subnet_2_cidr
+  name          = "subnet-2"
+  ip_cidr_range = "10.0.1.0/24"
+  network       = google_compute_network.vpc_network.id
   region        = var.region
-  network       = google_compute_network.vpc_network.name
 }
 
-// Create Composer cluster
-resource "google_composer_environment" "composer" {
-  name   = "${var.project_id}-composer"
-  region = var.region
-  config {
-    node_count = var.composer_node_count
-    software_config {
-      image_version = var.composer_image_version
-    }
-  }
-}
-
-// Implement cluster role binding
-resource "google_project_iam_binding" "composer_binding" {
-  project = var.project_id
-  role    = "roles/composer.user"
-  members = var.composer_members
+module "composer" {
+  source  = "terraform-google-modules/composer/google"
+  version = "~> 0.1"
+  name    = "composer-cluster"
+  region  = var.region
+  network = google_compute_network.vpc_network.self_link
+  subnetwork = google_compute_subnetwork.subnet_1.self_link
 }
