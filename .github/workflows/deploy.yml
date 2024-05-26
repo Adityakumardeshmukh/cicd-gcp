@@ -1,0 +1,25 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: 'projects/cicd-gcp-424408/locations/global/workloadIdentityPools/github-oidc-pool/providers/github-oidc-provider'
+          service_account: 'adityakumar.bd@sigmoidanalytics.com'
+
