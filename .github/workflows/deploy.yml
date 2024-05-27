@@ -26,6 +26,15 @@ jobs:
         with:
           workload_identity_provider: 'projects/cicd-gcp-424408/locations/global/workloadIdentityPools/github-oidc-pool/providers/github-oidc-provider'
           service_account: 'cicd-gcp-service-account@cicd-gcp-424408.iam.gserviceaccount.com'
+          
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      - name: Check GCP Authentication
+        run: gcloud auth list
 
       - name: Initialize Terraform
         run: terraform init
