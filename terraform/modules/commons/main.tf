@@ -30,10 +30,10 @@ resource "google_compute_subnetwork" "subnet_2" {
 }
 
 module "composer" {
-  source  = "terraform-google-modules/composer/google"
-  version = "~> 0.1"
-  name    = "composer-cluster"
-  region  = var.region
-  network = google_compute_network.vpc_network.self_link
-  subnetwork = google_compute_subnetwork.subnet_1.self_link
+  source          = "terraform-google-modules/composer/google"
+  version         = "~> 0.1"
+  project_id      = var.project_id
+  region          = var.region  # Add region variable here
+  composer_env_name = "cicd-gcp-env"  # Replace with your Composer environment name
+  composer_sa     = "cicd-gcp-service-account@cicd-gcp-424408.iam.gserviceaccount.com"    # Replace with your Composer service account
 }

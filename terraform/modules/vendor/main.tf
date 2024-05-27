@@ -7,14 +7,15 @@ resource "google_storage_bucket" "vendor_bucket" {
   location      = var.region
   force_destroy = true
 }
+#add this after completing all  infrastructure
+# Remove the storage bucket notification resource
+# resource "google_beta_storage_notification" "bucket_notification" {
+#   bucket = google_storage_bucket.vendor_bucket.name
+#   topic  = google_pubsub_topic.vendor_topic.id
+#   event_types = ["OBJECT_FINALIZE"]
 
-resource "google_storage_bucket_notification" "bucket_notification" {
-  bucket = google_storage_bucket.vendor_bucket.name
-  topic  = google_pubsub_topic.vendor_topic.id
-  event_types = ["OBJECT_FINALIZE"]
-
-  payload_format = "JSON_API_V1"
-}
+#   payload_format = "JSON_API_V1"
+# }
 
 resource "google_cloudfunctions_function" "vendor_function" {
   name        = "vendor-function"
