@@ -28,6 +28,7 @@ resource "google_cloudfunctions_function" "vendor_function" {
   source_archive_bucket = google_storage_bucket.vendor_bucket.name
   source_archive_object = "function-source.zip"
   project               = var.project_id
+  service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"  # Specify your service account
 
   event_trigger {
     event_type = "google.pubsub.topic.publish"
