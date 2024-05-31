@@ -28,7 +28,7 @@ jobs:
           service_account: 'cicd-gcp-service-account@cicd-gcp-424408.iam.gserviceaccount.com'
 
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
+        uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: cicd-gcp-424408
           export_default_credentials: true
@@ -36,18 +36,18 @@ jobs:
       - name: Check GCP Authentication
         run: gcloud auth list
 
-      - name: Initialize Terraform
+      - name: Initialize Terraform for Commons
         run: terraform init
         working-directory: ./terraform/modules/commons
 
-      - name: Apply Terraform
+      - name: Apply Terraform for Commons
         run: terraform apply -auto-approve
         working-directory: ./terraform/modules/commons
 
-      - name: Initialize Terraform for vendor
+      - name: Initialize Terraform for Vendor
         run: terraform init
         working-directory: ./terraform/modules/vendor
 
-      - name: Apply Terraform for vendor
+      - name: Apply Terraform for Vendor
         run: terraform apply -auto-approve
         working-directory: ./terraform/modules/vendor
