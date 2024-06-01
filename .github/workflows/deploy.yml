@@ -44,14 +44,26 @@ jobs:
         run: terraform init
         working-directory: ./terraform/modules/commons
 
-      - name: Apply or Destroy Terraform for Commons
-        run: terraform ${{ github.event.inputs.action }} -auto-approve
+      - name: Apply Terraform for Commons
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -auto-approve
+        working-directory: ./terraform/modules/commons
+
+      - name: Destroy Terraform for Commons
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -auto-approve
         working-directory: ./terraform/modules/commons
 
       - name: Initialize Terraform for Vendor
         run: terraform init
         working-directory: ./terraform/modules/vendor
 
-      - name: Apply or Destroy Terraform for Vendor
-        run: terraform ${{ github.event.inputs.action }} -auto-approve
+      - name: Apply Terraform for Vendor
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -auto-approve
+        working-directory: ./terraform/modules/vendor
+
+      - name: Destroy Terraform for Vendor
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -auto-approve
         working-directory: ./terraform/modules/vendor
