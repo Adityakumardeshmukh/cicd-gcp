@@ -47,3 +47,76 @@ jobs:
       - name: Apply Terraform for Vendor
         run: terraform apply -auto-approve
         working-directory: ./terraform/modules/vendor
+
+---
+this file is working till gcs bucket for tfstate file ----
+---
+name: Manage Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose action: apply or destroy'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  manage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: 'projects/179681486053/locations/global/workloadIdentityPools/github-pool/providers/github-actions'
+          service_account: 'github-service@cicd-gcp-424408.iam.gserviceaccount.com'
+
+      - name: Check GCP Authentication
+        run: gcloud auth list
+
+      - name: Initialize Terraform for Commons
+        run: terraform init
+        working-directory: ./terraform/modules/commons
+
+      - name: Apply Terraform for Commons
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -auto-approve
+        working-directory: ./terraform/modules/commons
+
+      - name: Destroy Terraform for Commons
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -auto-approve
+        working-directory: ./terraform/modules/commons
+
+      - name: Initialize Terraform for Vendor
+        run: terraform init
+        working-directory: ./terraform/modules/vendor
+
+      - name: Apply Terraform for Vendor
+        if: github.event.inputs.action == 'apply'
+        run: terraform apply -auto-approve
+        working-directory: ./terraform/modules/vendor
+
+      - name: Destroy Terraform for Vendor
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -auto-approve
+        working-directory: ./terraform/modules/vendor

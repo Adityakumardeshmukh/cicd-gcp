@@ -1,3 +1,12 @@
+#remove following code if failed --
+terraform {
+  backend "gcs" {
+    bucket  = "your-bucket-name"
+    prefix  = "terraform/state/vendor"
+    project = "your-project-id"
+  }
+}
+
 provider "google" {
   project = var.project_id
   region  = var.region
