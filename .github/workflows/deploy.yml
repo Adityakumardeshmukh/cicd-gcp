@@ -41,7 +41,7 @@ jobs:
         run: gcloud auth list
 
       - name: Initialize Terraform for Commons
-        run: terraform init -backend-config="bucket=your-bucket-name" -backend-config="prefix=terraform/state/commons" -backend-config="project=cicd-gcp-424408"
+        run: terraform init -backend-config="bucket=cicd-gcp-tfstate" -backend-config="prefix=terraform/state/commons" -backend-config="project=cicd-gcp-424408"
         working-directory: ./terraform/modules/commons
 
       - name: Apply Terraform for Commons
@@ -55,7 +55,7 @@ jobs:
         working-directory: ./terraform/modules/commons
 
       - name: Initialize Terraform for Vendor
-        run: terraform init -backend-config="bucket=vendor-bucket-cicd-gcp-424408" -backend-config="prefix=terraform/state/vendor" -backend-config="cicd-gcp-424408"
+        run: terraform init -backend-config="bucket=vcicd-gcp-tfstate" -backend-config="prefix=terraform/state/vendor" -backend-config="cicd-gcp-424408"
         working-directory: ./terraform/modules/vendor
 
       - name: Apply Terraform for Vendor
