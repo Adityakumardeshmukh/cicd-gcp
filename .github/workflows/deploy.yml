@@ -45,12 +45,12 @@ jobs:
         working-directory: ./terraform/modules/commons
 
       - name: Apply Terraform for Commons
-        if: ${{ github.event.inputs.action == 'apply' }}
+        if: github.ref == 'refs/heads/main' || github.event.inputs.action == 'apply'
         run: terraform apply -auto-approve
         working-directory: ./terraform/modules/commons
 
       - name: Destroy Terraform for Commons
-        if: ${{ github.event.inputs.action == 'destroy' }}
+        if: github.event.inputs.action == 'destroy'
         run: terraform destroy -auto-approve
         working-directory: ./terraform/modules/commons
 
@@ -59,11 +59,11 @@ jobs:
         working-directory: ./terraform/modules/vendor
 
       - name: Apply Terraform for Vendor
-        if: ${{ github.event.inputs.action == 'apply' }}
+        if: github.ref == 'refs/heads/main' || github.event.inputs.action == 'apply'
         run: terraform apply -auto-approve
         working-directory: ./terraform/modules/vendor
 
       - name: Destroy Terraform for Vendor
-        if: ${{ github.event.inputs.action == 'destroy' }}
+        if: github.event.inputs.action == 'destroy'
         run: terraform destroy -auto-approve
         working-directory: ./terraform/modules/vendor
