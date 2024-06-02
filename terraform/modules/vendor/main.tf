@@ -1,9 +1,9 @@
 #remove following code if failed --
 terraform {
   backend "gcs" {
-    bucket  = "your-bucket-name"
+    bucket  = "cicd-gcp-tfstate"
     prefix  = "terraform/state/vendor"
-    project = "your-project-id"
+    #project = "cicd-gcp-424408"
   }
 }
 
