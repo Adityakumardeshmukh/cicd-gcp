@@ -44,9 +44,6 @@ jobs:
         run: terraform init -backend-config="bucket=cicd-gcp-tfstate" -backend-config="prefix=terraform/state/commons"
         working-directory: ./terraform/modules/commons
 
-      - name: Debug Action Input
-        run: echo "Action: ${{ github.event.inputs.action }}"
-
       - name: Apply Terraform for Commons
         if: ${{ github.event.inputs.action == 'apply' }}
         run: terraform apply -auto-approve
