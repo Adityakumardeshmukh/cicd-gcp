@@ -27,28 +27,33 @@ resource "google_storage_bucket" "vendor_bucket" {
 resource "google_storage_bucket_object" "my_object" {
   name   = "function-source.zip"  # Name of the file in the bucket
   bucket = google_storage_bucket.vendor_bucket.name
-  source = "function-source.zip"  # Path to the local file to upload
+  source = data.archive_file.function_zip.output_path  # Path to the local file to upload
+}
+data "archive_file" "function_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/cloud_Function"
+  output_path = "${path.module}/cloud_Function/function-source.zip"
 }
 
-resource "google_cloudfunctions_function" "vendor_function" {
-  name        = "vendor-function"
-  runtime     = "python39"  # Use a valid Python runtime version
-  entry_point = "hello_pubsub"
-  source_archive_bucket = google_storage_bucket.vendor_bucket.name
-  source_archive_object = "function-source.zip"
-  project               = var.project_id
-  service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"  # Specify your service account
+# resource "google_cloudfunctions_function" "vendor_function" {
+#   name        = "vendor-function"
+#   runtime     = "python39"  # Use a valid Python runtime version
+#   entry_point = "hello_pubsub"
+#   source_archive_bucket = google_storage_bucket.vendor_bucket.name
+#   source_archive_object = "function-source.zip"
+#   project               = var.project_id
+#   service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"  # Specify your service account
  
-#  environment_variables = {
-#   project_id = var.project_id
-#    table_name = google_bigquery_table.vendor_table.table_id
-#    database_name = google_bigquery_table.vendor_table.dataset_id
-#  }
-  event_trigger {
-    event_type = "google.pubsub.topic.publish"
-    resource   = google_pubsub_topic.vendor_topic.name
-  }
-}
+# #  environment_variables = {
+# #   project_id = var.project_id
+# #    table_name = google_bigquery_table.vendor_table.table_id
+# #    database_name = google_bigquery_table.vendor_table.dataset_id
+# #  }
+#   event_trigger {
+#     event_type = "google.pubsub.topic.publish"
+#     resource   = google_pubsub_topic.vendor_topic.name
+#   }
+# }
 
 resource "google_project_iam_binding" "cloudfunctions_invoker" {
   project = var.project_id
