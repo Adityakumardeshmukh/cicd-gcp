@@ -37,63 +37,64 @@ resource "google_storage_bucket_object" "my_object" {
   source = data.archive_file.function_zip.output_path
 }
 
-
+# # Cloud Function
 # resource "google_cloudfunctions_function" "vendor_function" {
 #   name        = "vendor-function"
-#   runtime     = "python39"  # Use a valid Python runtime version
+#   runtime     = "python39"
 #   entry_point = "hello_pubsub"
 #   source_archive_bucket = google_storage_bucket.vendor_bucket.name
-#   source_archive_object = "function-source.zip"
+#   source_archive_object = google_storage_bucket_object.function_source.name
 #   project               = var.project_id
-#   service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"  # Specify your service account
- 
-# #  environment_variables = {
-# #   project_id = var.project_id
-# #    table_name = google_bigquery_table.vendor_table.table_id
-# #    database_name = google_bigquery_table.vendor_table.dataset_id
-# #  }
+#   service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"
+
+#   environment_variables = {
+#     project_id    = var.project_id
+#     dataset_id    = "my_dataset"  # Replace with your dataset
+#     table_id      = "my_table"    # Replace with your table
+#   }
+
 #   event_trigger {
 #     event_type = "google.pubsub.topic.publish"
 #     resource   = google_pubsub_topic.vendor_topic.name
 #   }
 # }
 
-resource "google_project_iam_binding" "cloudfunctions_invoker" {
-  project = var.project_id
-  role    = "roles/cloudfunctions.invoker"
-  members = [
-    "serviceAccount:${var.service_account_email}"
-  ]
-}
+# resource "google_project_iam_binding" "cloudfunctions_invoker" {
+#   project = var.project_id
+#   role    = "roles/cloudfunctions.invoker"
+#   members = [
+#     "serviceAccount:${var.service_account_email}"
+#   ]
+# }
 
-resource "google_project_iam_binding" "pubsub_publisher" {
-  project = var.project_id
-  role    = "roles/pubsub.publisher"
-  members = [
-    "serviceAccount:${var.service_account_email}"
-  ]
-}
+# resource "google_project_iam_binding" "pubsub_publisher" {
+#   project = var.project_id
+#   role    = "roles/pubsub.publisher"
+#   members = [
+#     "serviceAccount:${var.service_account_email}"
+#   ]
+# }
 
-resource "google_project_iam_binding" "storage_admin" {
-  project = var.project_id
-  role    = "roles/storage.admin"
-  members = [
-    "serviceAccount:${var.service_account_email}"
-  ]
-}
+# resource "google_project_iam_binding" "storage_admin" {
+#   project = var.project_id
+#   role    = "roles/storage.admin"
+#   members = [
+#     "serviceAccount:${var.service_account_email}"
+#   ]
+# }
 
-resource "google_project_iam_binding" "artifactregistry_reader" {
-  project = var.project_id
-  role    = "roles/artifactregistry.reader"
-  members = [
-    "serviceAccount:${var.service_account_email}"
-  ]
-}
+# resource "google_project_iam_binding" "artifactregistry_reader" {
+#   project = var.project_id
+#   role    = "roles/artifactregistry.reader"
+#   members = [
+#     "serviceAccount:${var.service_account_email}"
+#   ]
+# }
 
-resource "google_project_iam_binding" "storage_object_viewer" {
-  project = var.project_id
-  role    = "roles/storage.objectViewer"
-  members = [
-    "serviceAccount:${var.service_account_email}"
-  ]
-}
+# resource "google_project_iam_binding" "storage_object_viewer" {
+#   project = var.project_id
+#   role    = "roles/storage.objectViewer"
+#   members = [
+#     "serviceAccount:${var.service_account_email}"
+#   ]
+# }
