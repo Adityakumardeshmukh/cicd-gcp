@@ -38,7 +38,12 @@ resource "google_cloudfunctions_function" "vendor_function" {
   source_archive_object = "function-source.zip"
   project               = var.project_id
   service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"  # Specify your service account
-
+ 
+ environment_variables = {
+  project_id = var.project_id
+   table_name = google_bigquery_table.vendor_table.table_id
+   database_name = google_bigquery_table.vendor_table.dataset_id
+ }
   event_trigger {
     event_type = "google.pubsub.topic.publish"
     resource   = google_pubsub_topic.vendor_topic.name

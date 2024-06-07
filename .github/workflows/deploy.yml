@@ -40,6 +40,11 @@ jobs:
       - name: Check GCP Authentication
         run: gcloud auth list
 
+      - name: create cloud function zip
+        run: |
+          cd ./terraform/modules/vendor/cloud_function
+          zip -r function-source.zip main.py requirements.txt
+
       - name: Initialize Terraform for Commons
         run: terraform init -backend-config="bucket=cicd-gcp-tfstate" -backend-config="prefix=terraform/state/commons"
         working-directory: ./terraform/modules/commons
