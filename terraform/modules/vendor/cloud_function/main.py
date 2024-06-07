@@ -45,7 +45,7 @@ def hello_pubsub(event, context):
         skip_leading_rows=1,
         source_format=bigquery.SourceFormat.CSV
     )
-
+#
     with open(temp_local_file, 'rb') as source_file:
         job = bq_client.load_table_from_file(
             source_file,
