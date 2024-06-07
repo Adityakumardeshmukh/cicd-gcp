@@ -14,21 +14,19 @@ provider "google" {
 
 resource "google_pubsub_topic" "vendor_topic" {
   name    = "vendor-topic1"
-  project = var.project_id
 }
 
 resource "google_storage_bucket" "vendor_bucket" {
   name          = "vendor-bucket1-${var.project_id}"
   location      = var.region
   force_destroy = true
-  project       = var.project_id
 }
 resource "google_storage_notification" "notification_1" {
   bucket = google_storage_bucket.vendor_bucket.name
   payload_format = "JSON_API_V1"
-  topic = google_pubsub_topic.vendor_topic.name
+  topic = google_pubsub_topic.vendor_topic.id
   event_types = [
-    "OBJECT_FINALIZE",
+    "OBJECT_FINALIZE","OBJECT_METADATA_UPDATE","OBJECT_DELETE"
   ]
   
 }
