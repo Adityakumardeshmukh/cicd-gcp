@@ -65,7 +65,7 @@ resource "google_cloudfunctions_function" "vendor_function" {
   source_archive_bucket = google_storage_bucket.vendor_bucket.name
   source_archive_object = google_storage_bucket_object.my_object.name
   project               = var.project_id
-  service_account_email = "cicd-gcp-appengine@cicd-gcp-424408.iam.gserviceaccount.com"
+  service_account_email = "github-service@cicd-gcp-424408.iam.gserviceaccount.com"
 
   environment_variables = {
     project_id    = var.project_id
