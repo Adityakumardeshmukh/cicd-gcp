@@ -13,12 +13,12 @@ provider "google" {
 }
 
 resource "google_pubsub_topic" "vendor_topic" {
-  name    = "vendor-topic"
+  name    = "vendor-topic1"
   project = var.project_id
 }
 
 resource "google_storage_bucket" "vendor_bucket" {
-  name          = "vendor-bucket-${var.project_id}"
+  name          = "vendor-bucket1-${var.project_id}"
   location      = var.region
   force_destroy = true
   project       = var.project_id
