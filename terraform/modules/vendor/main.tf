@@ -26,8 +26,8 @@ resource "google_storage_bucket" "vendor_bucket" {
 # Data block to create a zip file
 data "archive_file" "function_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/cloud-function"
-  output_path = "${path.module}/cloud-function/function-source.zip"
+  source_dir  = "${path.module}/cloud_function"
+  output_path = "${path.module}/cloud_function/function-source.zip"
 }
 
 # Upload the zip file to the GCS bucket
