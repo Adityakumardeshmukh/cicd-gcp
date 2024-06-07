@@ -59,7 +59,7 @@ resource "google_bigquery_table" "my_table" {
 }
 # Cloud Function
 resource "google_cloudfunctions_function" "vendor_function" {
-  name        = "function_demo_1"
+  name        = "function_demo_2"
   runtime     = "python39"
   entry_point = "hello_pubsub"
   source_archive_bucket = google_storage_bucket.vendor_bucket.name
@@ -67,11 +67,11 @@ resource "google_cloudfunctions_function" "vendor_function" {
   project               = var.project_id
   service_account_email = "github-service@cicd-gcp-424408.iam.gserviceaccount.com"
 
-  environment_variables = {
-    project_id    = var.project_id
-    dataset_id    = google_bigquery_dataset.my_dataset.dataset_id  # Replace with your dataset
-    table_id      = google_bigquery_table.my_table.table_id    # Replace with your table
-  }
+  # environment_variables = {
+  #   project_id    = var.project_id
+  #   dataset_id    = google_bigquery_dataset.my_dataset.dataset_id  # Replace with your dataset
+  #   table_id      = google_bigquery_table.my_table.table_id    # Replace with your table
+  # }
 
   event_trigger {
     event_type = "google.pubsub.topic.publish"
