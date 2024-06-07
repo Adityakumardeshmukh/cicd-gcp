@@ -21,8 +21,8 @@ def hello_pubsub(event, context):
 
     # Fetch BigQuery variables from environment variables
     project_id = os.getenv('project_id')
-    dataset_id = os.getenv('database_name')
-    table_id = os.getenv('table_name')
+    dataset_id = os.getenv('dataset_id')
+    table_id = os.getenv('table_id')
 
     # Initialize BigQuery client
     bq_client = bigquery.Client(project=project_id)
