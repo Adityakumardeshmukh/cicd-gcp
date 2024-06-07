@@ -26,7 +26,7 @@ resource "google_storage_bucket" "vendor_bucket" {
 resource "google_storage_notification" "notification_1" {
   bucket = google_storage_bucket.vendor_bucket.name
   payload_format = "JSON_API_V1"
-  topic = google_pubsub_topic.vendor_topic.id
+  topic = google_pubsub_topic.vendor_topic.name
   event_types = [
     "OBJECT_FINALIZE",
   ]
