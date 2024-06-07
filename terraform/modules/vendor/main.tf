@@ -23,17 +23,20 @@ resource "google_storage_bucket" "vendor_bucket" {
   force_destroy = true
   project       = var.project_id
 }
-# Upload a file to the GCS bucket
-resource "google_storage_bucket_object" "my_object" {
-  name   = "function-source.zip"  # Name of the file in the bucket
-  bucket = google_storage_bucket.vendor_bucket.name
-  source = data.archive_file.function_zip.output_path  # Path to the local file to upload
-}
+# Data block to create a zip file
 data "archive_file" "function_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/cloud_Function"
-  output_path = "${path.module}/cloud_Function/function-source.zip"
+  source_dir  = "${path.module}/cloud-function"
+  output_path = "${path.module}/cloud-function/function-source.zip"
 }
+
+# Upload the zip file to the GCS bucket
+resource "google_storage_bucket_object" "my_object" {
+  name   = "function-source.zip"
+  bucket = google_storage_bucket.vendor_bucket.name
+  source = data.archive_file.function_zip.output_path
+}
+
 
 # resource "google_cloudfunctions_function" "vendor_function" {
 #   name        = "vendor-function"

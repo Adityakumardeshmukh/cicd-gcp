@@ -42,8 +42,9 @@ jobs:
 
       - name: create cloud function zip
         run: |
-          cd ./terraform/modules/vendor/cloud_function
-          zip -r function-source.zip main.py requirements.txt
+         cd ./terraform/modules/vendor/cloud-function
+         zip -r function-source.zip main.py requirements.txt
+
 
       - name: Initialize Terraform for Commons
         run: terraform init -backend-config="bucket=cicd-gcp-tfstate" -backend-config="prefix=terraform/state/commons"
