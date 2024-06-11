@@ -102,8 +102,6 @@ resource "google_cloudfunctions_function" "vendor_function" {
 #     "serviceAccount:${var.service_account_email}"
 #   ]
 # }
-
-
 # resource "google_project_iam_binding" "artifactregistry_reader" {
 #   project = var.project_id
 #   role    = "roles/artifactregistry.reader"
