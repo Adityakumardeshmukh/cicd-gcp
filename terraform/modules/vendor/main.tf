@@ -103,6 +103,7 @@ resource "google_cloudfunctions_function" "vendor_function" {
 #   ]
 # }
 
+
 # resource "google_project_iam_binding" "artifactregistry_reader" {
 #   project = var.project_id
 #   role    = "roles/artifactregistry.reader"
