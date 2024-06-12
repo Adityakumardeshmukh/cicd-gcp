@@ -55,7 +55,10 @@ resource "google_bigquery_dataset" "my_dataset" {
 resource "google_bigquery_table" "my_table" {
   dataset_id = google_bigquery_dataset.my_dataset.dataset_id
   table_id   = "table_demo_1"
-  project    = var.project_id
+  project    = var.project_id  
+  deletion_protection = false  # Updated line
+
+
 }
 # Cloud Function
 resource "google_cloudfunctions_function" "vendor_function" {
